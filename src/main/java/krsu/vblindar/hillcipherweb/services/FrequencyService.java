@@ -27,7 +27,7 @@ public class FrequencyService {
         }
         return alphabetEntries;
     }
-    public AlphabetTable getFrequencyData(String text,boolean check){
+    public AlphabetTable getFrequencyData(String text){
         int totalLetters = text.length();
         Map<Character, Integer> letterCounts = countLetterFrequencies(text);
         Map<Character, Double> decodeAlphabet = new HashMap<>();
@@ -44,36 +44,13 @@ public class FrequencyService {
                 decodeAlphabet.put(key, 0.0);
             }
         }
-        if(!check) {
-            tables.setDecodeAlphabet(MapUtil.sortByValue(decodeAlphabet));
-            tables.setOriginalAlphabet(MapUtil.sortByValue(tables.getOriginalAlphabet()));
-        }else{
+
             tables.setDecodeAlphabet(MapUtil.sortByValueDes(decodeAlphabet));
             tables.setOriginalAlphabet(MapUtil.sortByValueDes(tables.getOriginalAlphabet()));
-        }
 
         return tables;
     }
-//    public AlphabetTable getFrequencyData(String text){
-//        int totalLetters = text.length();
-//        Map<Character, Integer> letterCounts = countLetterFrequencies(text);
-//        Map<Character, Double> decodeAlphabet = new HashMap<>();
-//        for (Map.Entry<Character, Integer> entry : letterCounts.entrySet()) {
-//            char letter = entry.getKey();
-//            int count = entry.getValue();
-//            double frequency = (double) count / totalLetters * 100.0;
-//            decodeAlphabet.put(letter,frequency);
-//        }
-//
-//        var tables = new AlphabetTable(MapUtil.sortByValue(decodeAlphabet));
-//
-//        for (char key : tables.getOriginalAlphabet().keySet()) {
-//            if (!decodeAlphabet.containsKey(key)) {
-//                decodeAlphabet.put(key, 0.0);
-//            }
-//        }
-//        return new AlphabetTable(MapUtil.sortByValue(decodeAlphabet));
-//    }
+
 
 
     public static Map<Character, Integer> countLetterFrequencies(String text) {

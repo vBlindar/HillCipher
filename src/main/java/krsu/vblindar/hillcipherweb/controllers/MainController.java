@@ -38,7 +38,7 @@ public class MainController {
 
     @GetMapping("/frequency-table")
     public String getFrequencyTable(@RequestParam String input, Model model){
-        var alphabetTable = frequency.getFrequencyData(input,true);
+        var alphabetTable = frequency.getFrequencyData(input);
 
         List<AlphabetEntry> alphabetEntries = frequency.getAlphabetEntryesList(alphabetTable);
 
@@ -51,7 +51,7 @@ public class MainController {
 
     @GetMapping("/frequency-maps")
     public ResponseEntity<AlphabetTable> getMaps(@RequestParam String input){
-        var value = frequency.getFrequencyData(input,false);
+        var value = frequency.getFrequencyData(input);
         return ResponseEntity.ok(value);
     }
 
