@@ -1,0 +1,26 @@
+.input-size{
+    width: 60px;
+}
+
+.textarea-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.textarea-input{
+    width: 450px;
+    height: 600px;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+}
+/*.table-container {*/
+/*    border: 1px solid black;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+
+
