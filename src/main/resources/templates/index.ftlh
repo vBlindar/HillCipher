@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/js/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Hill cipher</title>
 </head>
 <body class="container">
@@ -54,7 +55,17 @@
     </div>
 
 </div>
+<div>
+    <div id="tables">
+
+    </div>
+
+    <div id="graph">
+
+    </div>
 </div>
+<canvas id="myChart" width="400" height="200"></canvas>
+
 
 <script src="js/script.js"></script>
 </body>

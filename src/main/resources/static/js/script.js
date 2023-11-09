@@ -28,6 +28,12 @@ async function encode(){
         const errorMessage = await response.text();
         alert(errorMessage);
     }
+    await getFrequencyAndGraph(text);
+}
+async function getFrequencyAndGraph(text){
+    const cipher = encodeURIComponent(document.getElementById('text-encoding').value);
+    await getTables(cipher);
+    await getMaps(cipher);
 
 }
 
@@ -52,6 +58,98 @@ async function decodeWithText(){
     fillRandomValues();
 
 }
+
+async function getTables(text){
+    const response = await fetch(`/frequency-table?input=${text}`);
+    const tables = document.getElementById('tables');
+    tables.innerHTML = await response.text();
+
+}
+
+/////////// frequency
+
+let myChart;
+async function getMaps(text) {
+    const response = await fetch(`/frequency-maps?input=${text}`);
+    const maps = await response.json();
+    const textFrequencyMap = maps.decodeAlphabet;
+    const languageFrequencyMap = maps.originalAlphabet;
+
+// Создаем объекты JavaScript для данных о частоте текста и частоте языка
+    const textFrequency = {};
+    const languageFrequency = {};
+
+// Заполняем объекты данными из Map
+    for (const [key, value] of Object.entries(textFrequencyMap)) {
+        textFrequency[key] = value;
+    }
+
+    for (const [key, value] of Object.entries(languageFrequencyMap)) {
+        languageFrequency[key] = value;
+    }
+    // Сортируем коллекции по значению
+    const sortedTextFrequency = Object.fromEntries(
+        Object.entries(textFrequency).sort(([, a], [, b]) => b - a)
+    );
+
+    const sortedLanguageFrequency = Object.fromEntries(
+        Object.entries(languageFrequency).sort(([, a], [, b]) => b - a)
+    );
+    const sortedTextFrequencyValues = Object.values(sortedTextFrequency);
+    const sortedLanguageFrequencyValues = Object.values(sortedLanguageFrequency);
+
+    const maxLabelsToShow = 37; // Максимальное количество меток для отображения
+
+// Получаем массив меток и ограничиваем его до максимального количества
+    const labelsToShow = Object.keys(sortedTextFrequencyValues).slice(0, maxLabelsToShow);
+    // Вызываем функцию для создания или обновления графика
+    createOrUpdateChart(labelsToShow, sortedTextFrequencyValues, sortedLanguageFrequencyValues);
+}
+
+function createOrUpdateChart(labels, textFrequencyValues, languageFrequencyValues) {
+    if (myChart) {
+        // Если график уже существует, обновляем его данные
+        myChart.data.labels = labels;
+        myChart.data.datasets[0].data = textFrequencyValues;
+        myChart.data.datasets[1].data = languageFrequencyValues;
+        myChart.update(); // Обновляем график
+    } else {
+        // Если график еще не существует, создаем его
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Частота в тексте',
+                    data: textFrequencyValues,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Частота в языке',
+                    data: languageFrequencyValues,
+                    borderColor: 'rgb(255,99,99)',
+                    borderWidth: 2
+                }
+            ]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        myChart = new Chart(ctx, config);
+    }
+}
+
 
 
 
